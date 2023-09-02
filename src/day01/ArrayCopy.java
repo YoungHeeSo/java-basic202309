@@ -22,6 +22,7 @@ public class ArrayCopy {
         pets[1]="어흥이";
 
         //배열 주소
+
         System.out.println("pets = " + pets);
         System.out.println("petsCopy = " + petsCopy);
 
