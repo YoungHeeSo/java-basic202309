@@ -29,8 +29,9 @@ bin/
 .DS_Store
 
 ### Intelli J IDEA Module ###
+# git rm --cached -r .idea/
 .idea/
-# git rm —cached -r .idea/
+
 java-basic202309.iml
 
 ========================
