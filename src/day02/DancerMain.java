@@ -31,5 +31,7 @@ public class DancerMain {
         hong.dance();
         hong.introduce();
 
+        System.out.println(kim);
+        System.out.println(park);
     }
 }
