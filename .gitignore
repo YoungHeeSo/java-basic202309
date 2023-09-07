@@ -30,6 +30,7 @@ bin/
 
 ### Intelli J IDEA Module ###
 .idea/
+# git rm —cached -r .idea/
 java-basic202309.iml
 
 ========================
