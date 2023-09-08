@@ -40,12 +40,7 @@ public class MethodQuizAnswer {
 
         printFoods();
 
-
     }
-
-
-
-
 
     // 원하는 사이즈 복사배열을 생성하는 함수
     static String[] makeNew(int size) {

@@ -60,7 +60,6 @@ public class MethodQuiz {
 
         printFoods();
 
-
         /*boolean flag = include("파스타"); // 파스타 발견시 true 리턴
         boolean flag2 = include("양념치킨"); // 양념치킨 미발견시 false 리턴
 
@@ -71,4 +70,5 @@ public class MethodQuiz {
         printFoods();
 
     }
+
 }
