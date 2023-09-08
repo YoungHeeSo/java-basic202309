@@ -1,6 +1,6 @@
 package day03.player;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
 
         //기본생성자는 생성자가 없어야 자동생성 돼
