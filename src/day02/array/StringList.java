@@ -26,52 +26,84 @@ public class StringList {
         sArr=temp;
     }
 
-    //배열 맨 끝 데이터 추가
-    void push(String newData){
-        String[] dataPush = new String[sArr.length+1];
-        for (int i = 0; i < sArr.length; i++) {
-            dataPush[i]=sArr[i];
-        }
-        dataPush[sArr.length]=newData;
-        sArr=dataPush;
-    }
-
-    //배열 중간에 데이터 삽입
-    void insert(int index, String food){
-        String[] insertArr=new String[sArr.length+1];
-
-        for (int i = 0; i < sArr.length; i++) {
-            insertArr[i]=sArr[i];
-        }
-        for (int i = sArr.length; i > index; i--) {
-            insertArr[i]=sArr[i-1];
-        }
-        insertArr[index]=food;
-        sArr=insertArr;
-    }
-
-    //배열 중간 값 삭제
-    void remove(int index){
-        for (int i = index; i < sArr.length-1; i++) {
-            sArr[i]=sArr[i+1];
-        }
-        String[] reArray=new String[sArr.length-1];
-        for (int i = 0; i < reArray.length; i++) {
-            reArray[i]=sArr[i];
-        }
-        sArr=reArray;
-    }
-    void remove(String food){
-        for (int i = 0; i < sArr.length; i++) {
-            if(food.equals(sArr[i])){
-                remove(i);
-            }
-        }
-    }
-
-
     void printArray(){
         System.out.println(Arrays.toString(sArr));
     }
+
+    // 배열에 저장된 데이터 수를 알려주는 기능
+    int size(){
+        return sArr.length;
+    }
+
+    //배열에 맨 끝에 디어트를 추가하는 기능
+    void push(String newData){
+        String[] temp= new String[sArr.length+1];
+        for (int i = 0; i < sArr.length; i++) {
+            temp[i]=sArr[i];
+        }
+        temp[temp.length-1]=newData;
+        //temp는 지역변수 이기 때문에
+        //메서드가 끝나면 사라진다
+    }
+
+    //배열이 비어있는지 확인
+    //블린은 관례적으로 has, is 사용해
+    boolean isEmpty(){
+        return sArr.length==0;
+    }
+
+    //배열을 전체 삭제하는 메서드
+    void clear(){
+        sArr=new String[0];
+    }
+
+    // 인덱스 탐색 (indexOf)
+    public int indexOf(String target) {
+        for (int i = 0; i < sArr.length; i++) {
+            if (target.equals(sArr[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // 자료 유무 확인 (includes)
+    public boolean includes(String target) {
+        return indexOf(target) != -1;
+    }
+
+    // 중간 삭제 (remove) : 인덱스로 삭제
+    public String remove(int index) {
+        if (index < 0 || index > sArr.length - 1) return null;
+
+        String targetData = sArr[index];
+        for (int i = index; i < sArr.length - 1; i++) {
+            sArr[i] = sArr[i + 1];
+        }
+        pop();
+        return targetData;
+    }
+    // 중간 삭제 (remove) : 값으로 삭제
+    public String remove(String target) {
+        return remove(indexOf(target));
+    }
+
+    // 중간 삽입 (insert)
+    public void insert(int index, String newData) {
+
+        if (index < 0 || index > sArr.length - 1) return;
+        if (index == sArr.length - 1) push(newData);
+
+        String[] temp = new String[sArr.length + 1];
+        for (int i = 0; i < sArr.length; i++) {
+            temp[i] = sArr[i];
+        }
+        for (int i = temp.length - 1; i > index; i--) {
+            temp[i] = temp[i-1];
+        }
+        temp[index] = newData;
+        sArr = temp;
+    }
+
 
 }

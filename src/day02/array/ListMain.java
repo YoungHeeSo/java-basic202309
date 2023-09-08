@@ -35,20 +35,18 @@ public class ListMain {
         foodList.remove("꽃게탕");
         foodList.remove(2);
 
-//        System.out.println("짜장면 있음? " + foodList.includes("짜장면"));
-//        System.out.println("짱뽕 있음? " + foodList.includes("짬뽕"));
-//
-//        System.out.println("제육볶음 어딨음? " + foodList.indexOf("제육볶음"));
-//
-////        foodList.clear();
-////        System.out.println("foodList 비었니? " + foodList.isEmpty());
-//
-//        System.out.println("foodList = " + foodList);
-        foodList.printArray();
-//        System.out.println("foodList.size() = " + foodList.size());
-//        System.out.println("userNameList = " + userNameList);
-        userNameList.printArray();
-//        System.out.println("userNameList.size() = " + userNameList.size());
+        System.out.println("짜장면 있음? " + foodList.includes("짜장면"));
+        System.out.println("짱뽕 있음? " + foodList.includes("짬뽕"));
+
+        System.out.println("제육볶음 어딨음? " + foodList.indexOf("제육볶음"));
+
+//        foodList.clear();
+//        System.out.println("foodList 비었니? " + foodList.isEmpty());
+
+        System.out.println("foodList = " + foodList);
+        System.out.println("foodList.size() = " + foodList.size());
+        System.out.println("userNameList = " + userNameList);
+        System.out.println("userNameList.size() = " + userNameList.size());
 
     }
 }
