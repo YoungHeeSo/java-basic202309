@@ -12,8 +12,11 @@ public class Test {
         System.out.println("===========================");
 
         // 이메일 중복 테스트
-        /*String email = "abc@def.ko";
+        String email = "ttt@yyy.com";
         boolean flag1=mr.isDuplicatedEmail(email);
-        System.out.println("flag1 = " + flag1);*/
+        System.out.println("flag1 = " + flag1);
+
+        Member foundMember = mr.findMemberByEmail(email);
+        System.out.println("foundMember.inform()="+foundMember.inform());
     }
 }
