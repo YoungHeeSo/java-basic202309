@@ -64,17 +64,19 @@ public class MemberRepository {
     * @return - 해당 이메일과 일치하는 회원의 모든 객체 정보
     *          이메일이 일치하지 않으면 null 리턴
     */
-    Member findMemberByEmail(String email){
-        int index= findMemberIndexByEmail(email);
-        return index >=0 ? memberList[index] : null;
+    Member findMemberByEmail(String email, boolean restore){
+        Member[] targetList = restore ? removeMembers : memberList;
+        int index= findMemberIndexByEmail(email, restore);
+        return index >=0 ? targetList[index] : null;
     }
 
     /**
      * 이메일을 통해 인덱스를 가져오는 메서드
      */
-   int findMemberIndexByEmail(String email){
-       for (int i = 0; i < memberList.length; i++) {
-           Member member = memberList[i];
+   int findMemberIndexByEmail(String email,boolean restore){
+       Member[] targetList = restore ? removeMembers : memberList;
+       for (int i = 0; i < targetList.length; i++) {
+           Member member = targetList[i];
            if (email.equals(member.email)) {
                return i;
            }
@@ -86,36 +88,46 @@ public class MemberRepository {
     * 비밀번호를 수정하는 메서드
     */
     void updatePassword(String newPassword, String email){
-        Member member=findMemberByEmail(email);
+        Member member=findMemberByEmail(email, false); // 복구 리스트를 쓰는게 아니라서 false
         member.password=newPassword;
     }
 
     /*
     * 회원탈퇴를 처리하는 메서드
     *  */
-    void deleteMember(String email){
-        // 기존 memberList 에서 제거
-        int index = findMemberIndexByEmail(email);
-        // 제거 대상 백업
-        Member deleteMember = memberList[index];
+    void deleteMember(String email, boolean restore){
+        Member[] delTargetList = restore ? removeMembers : memberList;
+        Member[] addTargetList = restore ? memberList : removeMembers;
 
-        for (int i = index; i < memberList.length-1; i++) {
-            memberList[i]=memberList[i+1];
+        // 기존 memberList 에서 제거
+        int index = findMemberIndexByEmail(email, restore);
+        // 제거 대상 백업
+        Member deleteMember = delTargetList[index];
+        for (int i = index; i < delTargetList.length-1; i++) {
+            delTargetList[i]=delTargetList[i+1];
         }
-        Member[] temp = new Member[memberList.length-1];
+        Member[] temp = new Member[delTargetList.length-1];
 
         for (int i = 0; i < temp.length; i++) {
-            temp[i]=memberList[i];
+            temp[i]=delTargetList[i];
         }
-        memberList=temp;
+        delTargetList=temp;
 
         //removeMembers 에 추가
-        temp = new Member[removeMembers.length+1];
-        for (int i = 0; i < removeMembers.length; i++) {
-            temp[i]=removeMembers[i];
+        temp = new Member[addTargetList.length+1];
+        for (int i = 0; i < addTargetList.length; i++) {
+            temp[i]=addTargetList[i];
         }
         temp[temp.length-1]=deleteMember;
-        removeMembers=temp;
+        addTargetList=temp;
+
+        if(restore){
+            removeMembers = delTargetList;
+            memberList = addTargetList;
+        }else {
+            removeMembers = addTargetList;
+            memberList = delTargetList;
+        }
     }
 
     void printRemoveMembers(){
