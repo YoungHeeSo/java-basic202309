@@ -5,6 +5,9 @@ import java.util.Scanner;
 // 역할: 회원관리 앱의 입출력을 담당
 public class MemberView {
 
+    //상수만들기 psfi
+    public static final int MAX_REGISTER=4;
+
     Scanner sc;
     MemberRepository mr;
 
@@ -19,17 +22,7 @@ public class MemberView {
      */
     void mainView() {
         System.out.println("\n##### 회원 관리 시스템 #####");
-        System.out.println("* 1. 회원 정보 등록하기");
-        System.out.println("* 2. 개별회원 정보 조회하기");
-        System.out.println("* 3. 전체회원 정보 조회하기");
-        System.out.println("* 4. 회원 정보 수정하기");
-        System.out.println("* 5. 회원 정보 삭제하기");
-        System.out.println("* 6. 프로그램 끝내기");
-        System.out.println("=============================");
-    }
-    void mainView(boolean hide) {
-        System.out.println("\n##### 회원 관리 시스템 #####");
-        System.out.println("* 현재 인원을 등록할 수 없습니다");
+        if(mr.getNumberOfMembers()<MAX_REGISTER) System.out.println("* 1. 회원 정보 등록하기");
         System.out.println("* 2. 개별회원 정보 조회하기");
         System.out.println("* 3. 전체회원 정보 조회하기");
         System.out.println("* 4. 회원 정보 수정하기");
@@ -43,17 +36,20 @@ public class MemberView {
      */
     void viewProcess() {
         while (true) {
-//            mainView();
-            hideMembers();
+            mainView();
 
             String menuNum = input(">> ");
 
             switch (menuNum) {
                 case "1":
+                    if(mr.getNumberOfMembers()>MAX_REGISTER-1){
+                        System.out.println("# 더 이상 회원등록을 할 수 없습니다");
+                        continue;
+                    }
                     signUp();
                     break;
                 case "2":
-                    individualMember();
+                    showDetail();
                     break;
                 case "3":
                     mr.showMembers();
@@ -63,8 +59,7 @@ public class MemberView {
                     changePassword();
                     break;
                 case "5":
-                    withdrawal();
-//                    atmosphere();
+                    deleteMemberProcess();
                     break;
                 case "6":
                     String answer = input("# 정말로 종료합니까? [y/n] : ");
@@ -81,69 +76,38 @@ public class MemberView {
         }
     }
 
-    /*1. 2번 메뉴를 선택하면, 이메일을 입력받아서 일치하는 회원이 발견되면 회원의 패스워드를 포함한 모든 정보를 세로로 출력
-      이름: ㅌㅌㅌ
-      이메일: ㅌㅌㅌ
-      패스워드 : ㅇㅇㅇㅇ*/
-    private void individualMember() {
-        String email = input("# 이메일을 입력해주세요: ");
+    private void deleteMemberProcess() {
+        // 이메일을 입력 받음
+        String email = input("# 삭제 대상의 이메일을 입력해주세요: ");
+        //수정 대상 탐색
         Member member = mr.findMemberByEmail(email);
-        if(email.equals(member.email)){
-            System.out.println("아이디: "+member.memberId);
-            System.out.println("이름: "+member.memberName);
-            System.out.println("이메일: "+member.email);
-            System.out.println("패스워드: "+member.password);
+
+        if(member!=null){
+            //패스워드 검사
+            String inputPw = input("# 비밀번호: ");
+            if(mr.isMatchPassword(inputPw, member.password)){
+                mr.deleteMember(email);
+                System.out.println("\n 회원 탈퇴가 처리되었습니다. " +
+                        "복구하시려면 복구 메뉴를 이용하세요");
+            }
+        }else {
+            System.out.println("/n # 비밀번호가 일치하지 않습니다");
+        }
+    }
+
+    private void showDetail() {
+        // 이메일을 입력 받음
+        String email = input("# 이메일을 입력해주세요: ");
+        //수정 대상 탐색
+        Member member = mr.findMemberByEmail(email);
+        //조회 대상 탐색
+        if(member!=null){
+            member.showDetailInfo();
+        }else{
+            System.out.println("/n # 조회 결과가 없습니다");
         }
         stop();
     }
-
-  /*2. 가입된 회원이 10명이 넘으면 1번 메뉴를 숨김처리하세요.*/
-  private void hideMembers() {
-      if(mr.memberList.length==10) {
-          mainView(true);
-      }else mainView();
-  }
-
-  private void withdrawal() {
-    /*3-1. 회원 탈퇴기능을 구현하시고.  5번을 누르면 이메일과 패스워드를 입력받으신 후 일치하면 회원배열에서 제거하세요.*/
-      String email = input("# 이메일을 입력해주세요: ");
-      String password = input("# 패스워드를 입력해주세요: ");
-      Member memberOfEmail = mr.findMemberByEmail(email);
-
-      for (int i = 0; i < mr.memberList.length; i++) {
-          if (email.equals(memberOfEmail.email) && password.equals(memberOfEmail.password)) {
-              System.out.println(mr.memberList[i].inform());
-              int index=i;
-
-              Member[] updateMember = new Member[mr.memberList.length-1];
-              for (int j = index; j < mr.memberList.length-1; j++) {
-                  mr.memberList[j]=mr.memberList[j+1];
-              }
-
-              for (int j = 0; j < updateMember.length; j++) {
-                  updateMember[j]=mr.memberList[j];
-              }
-              mr.memberList=updateMember;
-
-              /*3-2. 탈퇴처리를 한 후 탈퇴대기 배열에 추가하세요.*/
-              Member[] deletMember=new Member[mr.removeMembers.length+1];
-              for (int k = mr.removeMembers.length; k < deletMember.length; k++) {
-                  deletMember[k]=mr.memberList[index];
-                  System.out.println("#"+mr.memberList[index].inform());
-              }
-              mr.removeMembers=deletMember;
-              for (Member member : mr.removeMembers) {
-                  System.out.println("removeMember"+member.inform());
-              }
-              break;
-          }
-      }
-      mr.showMembers();
-      stop();
-  }
-
-  /*4. 추가 메뉴번호를 활성화하여 예를들어 7. 회원 복구하기 회원의 이메일과 패스워를 입력받아 복구시켜주시고,
-        만약 10명이 가입된 상태면 복구를 할 수 없다라는 로그를 띄워주세요.*/
 
     private void changePassword() {
         //이메일을 입력받음

@@ -9,19 +9,11 @@ public class MemberRepository {
 
     public MemberRepository() {
         this.memberList= new Member[]{
-                new Member(1,"abc@def.com","1234","콩벌레", Gender.MALE, 15),
-                new Member(2,"fff@def.com","4567","팥죽이", Gender.FEMALE, 20),
-                new Member(3,"dfevr@def.com","8901","카레맨", Gender.MALE, 18),
-
-                /*new Member(4,"abc@def.com","1234","콩벌레", Gender.MALE, 15),
-                new Member(5,"fff@def.com","4567","팥죽이", Gender.FEMALE, 20),
-                new Member(6,"dfevr@def.com","8901","카레맨", Gender.MALE, 18),
-                new Member(7,"abc@def.com","1234","콩벌레", Gender.MALE, 15),
-                new Member(8,"fff@def.com","4567","팥죽이", Gender.FEMALE, 20),
-                new Member(9,"dfevr@def.com","8901","카레맨", Gender.MALE, 18),
-                new Member(10,"dfevr@def.com","8901","카레맨", Gender.MALE, 18),*/
-
+                new Member(1, "abc@def.com", "1234", "콩벌레", Gender.MALE, 15),
+                new Member(2, "fff@ggg.com", "4567", "팥죽이", Gender.FEMALE, 30),
+                new Member(3, "xxx@vvv.com", "8765", "카레맨", Gender.FEMALE, 45),
         };
+
         this.removeMembers=new Member[]{};
     }
 
@@ -52,7 +44,7 @@ public class MemberRepository {
         return true;
     };
 
-    /*
+    /**
     * 이메일의 중복여부를 확인하는 메서드
     * @param1 email - 중복검사 대상 이메일
     * @return - 중복되었다면 true, 아니라면 false
@@ -73,12 +65,21 @@ public class MemberRepository {
     *          이메일이 일치하지 않으면 null 리턴
     */
     Member findMemberByEmail(String email){
-        for (Member member : memberList) {
-            if(email.equals(member.email)){
-                return member;
-            }
-        }
-        return null;
+        int index= findMemberIndexByEmail(email);
+        return index >=0 ? memberList[index] : null;
+    }
+
+    /**
+     * 이메일을 통해 인덱스를 가져오는 메서드
+     */
+   int findMemberIndexByEmail(String email){
+       for (int i = 0; i < memberList.length; i++) {
+           Member member = memberList[i];
+           if (email.equals(member.email)) {
+               return i;
+           }
+       }
+        return -1;
     }
 
     /**
@@ -92,5 +93,51 @@ public class MemberRepository {
     /*
     * 회원탈퇴를 처리하는 메서드
     *  */
+    void deleteMember(String email){
+        // 기존 memberList 에서 제거
+        int index = findMemberIndexByEmail(email);
+        // 제거 대상 백업
+        Member deleteMember = memberList[index];
+
+        for (int i = index; i < memberList.length-1; i++) {
+            memberList[i]=memberList[i+1];
+        }
+        Member[] temp = new Member[memberList.length-1];
+
+        for (int i = 0; i < temp.length; i++) {
+            temp[i]=memberList[i];
+        }
+        memberList=temp;
+
+        //removeMembers 에 추가
+        temp = new Member[removeMembers.length+1];
+        for (int i = 0; i < removeMembers.length; i++) {
+            temp[i]=removeMembers[i];
+        }
+        temp[temp.length-1]=deleteMember;
+        removeMembers=temp;
+    }
+
+    void printRemoveMembers(){
+        System.out.println("============================");
+        for (Member removeMember : removeMembers) {
+            System.out.println(removeMember.inform());
+        }
+        System.out.println("============================");
+    }
+
+    /**
+     * 현재 저장된 회원 수를 알려주는 매서드
+     * */
+    int getNumberOfMembers(){
+        return memberList.length;
+    }
+
+    /**
+     * 패스워드 일치 검증 메서드
+     * */
+    boolean isMatchPassword(String inputPassword, String originPassword){
+        return inputPassword.equals(originPassword);
+    }
 
 }

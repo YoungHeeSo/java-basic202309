@@ -1,22 +1,32 @@
 package day03.member;
 
 public class Test {
+
     public static void main(String[] args) {
+
         MemberRepository mr = new MemberRepository();
 
-        Member thief=new Member(4, "ttt@yyy.com", "9999", "밥도둑", Gender.MALE, 20);
+        Member thief = new Member(4, "ttt@yyy.com", "9999", "밥도둑", Gender.MALE, 11);
+
         mr.addMember(thief);
 
         mr.showMembers();
 
-        System.out.println("===========================");
+        System.out.println("==================");
 
-        // 이메일 중복 테스트
-        String email = "ttt@yyy.com";
-        boolean flag1=mr.isDuplicatedEmail(email);
+        String email = "abc@def.com";
+        boolean flag1 = mr.isDuplicatedEmail(email);
         System.out.println("flag1 = " + flag1);
 
         Member foundMember = mr.findMemberByEmail(email);
-        System.out.println("foundMember.inform()="+foundMember.inform());
+        System.out.println("foundMember.inform() = " + foundMember.inform());
+
+
+        mr.deleteMember(email);
+        mr.deleteMember("xxx@vvv.com");
+        mr.deleteMember("ttt@yyy.com");
+
+        mr.showMembers();
+        mr.printRemoveMembers();
     }
 }
