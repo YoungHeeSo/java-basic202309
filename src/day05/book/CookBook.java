@@ -11,6 +11,7 @@ public class CookBook extends Book {
         this.coupon = coupon;
     }
 
+    //boolean 타입은 get생성자 대신 is생성자로 이름이 지어진다
     public boolean isCoupon() {
         return coupon;
     }

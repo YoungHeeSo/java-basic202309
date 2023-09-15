@@ -11,11 +11,7 @@ public class BookUser {
     private Book[] rentBookList; // 빌린 책 정보들
 
     public BookUser() {
-        System.out.println("******* 회원님 정보 *******");
-        System.out.println("# 회원명: "+ getName());
-        System.out.println("# 나이: "+ getAge());
-        System.out.println("# 성별: "+ getGender());
-        System.out.println("# 쿠폰 개수: "+ getCouponCount());
+
     }
 
     public BookUser(String name, int age, Gender gender, int couponCount) {
