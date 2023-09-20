@@ -14,9 +14,9 @@ public class Main {
         } catch (Exception e) {
 //            e.printStackTrace(); //에러 로그 출력
             System.out.println(e.getMessage());
-        }catch (NumberFormatException e){
+        }/* catch (NumberFormatException e){
 
-        }
+        }*/
 //        System.out.println("result = " + result);
 
     }
