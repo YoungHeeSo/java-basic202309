@@ -12,8 +12,8 @@ public class Main {
         try {
             result = user.validate(id, pw);
         } catch (Exception e) {
-//            e.printStackTrace(); //에러 로그 출력
-            System.out.println(e.getMessage());
+            e.printStackTrace(); //에러 로그 출력
+//            System.out.println(e.getMessage());
         }/* catch (NumberFormatException e){
 
         }*/
