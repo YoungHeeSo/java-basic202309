@@ -6,10 +6,10 @@ public class Apple extends Object{
 
     public Apple(int sweet) {
         this.sweet=sweet;
-    }
+    };
 
     @Override
     public String toString() {
-        return " 아 사과의 당도는"+sweet+"입니다";
+        return " 아 사과의 당도는 "+sweet+" 입니다";
     }
 }
