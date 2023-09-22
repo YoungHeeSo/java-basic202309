@@ -36,7 +36,8 @@ public class Pen {
     public boolean equals(Object obj) {
         if(obj instanceof Pen){
             Pen target = (Pen) obj;
-            return this.serial == target.serial
+//            return this.serial == target.serial
+            return this.serial.equals(target.serial)
                     && this.company.equals(target.company)
                     && this.color.equals(target.color);
         }

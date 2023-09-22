@@ -24,5 +24,9 @@ public class Main {
 
         System.out.println(penSet.size());
         System.out.println(penSet);
+
+//        long time = System.currentTimeMillis();
+        long time = System.nanoTime();
+        System.out.println("time = " + time );
     }
 }
