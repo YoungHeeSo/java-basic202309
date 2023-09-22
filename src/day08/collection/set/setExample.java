@@ -13,6 +13,7 @@ public class setExample {
         Set<String> foodSet = new HashSet<>();
 
 //        add(E e) : 데이터 추가
+        // 기존 데이터가 있으면 추가가 실패됨
         boolean f1 = foodSet.add("김말이");
         foodSet.add("닭꼬치");
         foodSet.add("단무지");

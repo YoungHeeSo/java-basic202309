@@ -32,8 +32,7 @@ public class MapExample {
         Set<String> keySet = map.keySet();
         System.out.println("keySet = " + keySet);
 
-        for (String s: keySet
-             ) {
+        for (String s: keySet) {
             System.out.printf("%s:%s\n", s, map.get(s));
         }
     }
