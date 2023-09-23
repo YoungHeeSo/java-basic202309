@@ -2,6 +2,7 @@ package day08.collection.song;
 
 import day04.modi.pac1.A;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,6 +21,10 @@ public class ArtistView {
 
     // 메인 실행 기능
     public static void start() {
+
+        // 세이브파일 로드
+        ar.loadFile();
+
         while (true){
             System.out.println("******** 음악 관리 프로그램 ********");
             System.out.println("# 현재 등록된 가수: "+ar.count()+" 명");
@@ -56,6 +61,7 @@ public class ArtistView {
 
         if(ar.isRegistered(artistName)){
             System.out.printf("%s님의 노래목록 \n",artistName);
+
             makeLine();
 
             ar.showSongList(artistName);
@@ -71,12 +77,12 @@ public class ArtistView {
         String artistName = input(" -  가수명: ");
         String songName = input(" - 노래명: ");
 
-        ar.addNewArtist(artistName, songName);
+//        ar.addNewArtist(artistName, songName);
 
         // 기존에 등록된 가수인가?
         if (!ar.isRegistered(artistName)) { // 기존에 등록되지 않은 신규 가수라면
             ar.addNewArtist(artistName, songName);
-            System.out.printf("\n # %s 님이 신규 등록되었습니다", artistName);
+            System.out.printf("\n# %s 님이 신규 등록되었습니다\n", artistName);
         } else { // 기존 등록된 가수에 노래만 추가
             //새로운 가수 정보를 생성하는게 아니라
             // 기존 가수 정보에서 노래 정보만 추가하면 됨
@@ -87,7 +93,7 @@ public class ArtistView {
                 System.out.printf("\n# [%s]곡은 이미 등록된 노래입니다.\n", songName);
 
             }
-
         }
+        ar.autoSave();
     }
 }
