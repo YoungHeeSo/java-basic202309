@@ -37,7 +37,12 @@ public class Main {
 //        익명 클래스
 //        필드와 생성자 만들 수 있음
 //        클래스처럼 사용가능
-        Calculator cal3= (n1, n2) -> n1*n2;
+        Calculator cal3= new Calculator() {
+            @Override
+            public int operate(int n1, int n2) {
+                return n1 * n2;
+            }
+        };
 
          int r3 = cal3.operate(5,8);
          System.out.println("r3 = " + r3);
